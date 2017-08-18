@@ -7,7 +7,10 @@ namespace TurnManager
         static void Main(string[] args)
         {
             var turnManager = new TurnManagerQueue<string>(3);
-
+            turnManager.GetItemEvent += (p,arg) =>
+            {
+                Console.WriteLine($"Evento : {arg.Item}");
+            };
             Read(turnManager);
 
             //EachNames(turnManager);
@@ -31,18 +34,19 @@ namespace TurnManager
                     turnManager.Add(value);
             }
         }
-        private static void Write(ITurnManager<string> turnManager)
-        {
-            //TODO: 03 -  Llamo a mi ToEnumerable pasando como parametro una funciona lambda generica
-            var listParser = turnManager.ToEnumerable<int>((string param) =>
-            {
-                int.TryParse(param, out var item);
-                return item;
-            });
+        // private static void Write(ITurnManager<string> turnManager)
+        // {
+        //     //TODO: 03 -  Llamo a mi ToEnumerable pasando como parametro una funciona lambda generica
+        //     var listParser = turnManager.ToEnumerable<int>((string param) =>
+        //     {
 
-            foreach (var item in listParser)
-                Console.WriteLine(item);
-        }
+        //         int.TryParse(param, out var item);
+        //         return item;
+        //     });
+
+        //     foreach (var item in listParser)
+        //         Console.WriteLine(item);
+        // }
         // private static void Write<T>(ITurnManager<string> turnManager)
         // {
         //     var listParser = turnManager.ToEnumerable<T>();
@@ -50,15 +54,15 @@ namespace TurnManager
         //     foreach (var item in listParser)
         //         Console.WriteLine(item);
         // }
-        // private static void Write(ITurnManager<string> turnManager)
-        // {
+        private static void Write(ITurnManager<string> turnManager)
+        {
 
-        //     while (!turnManager.IsEmpty())
-        //     {
-        //         //Mientras no sea Empty sigo iterando
-        //         Console.WriteLine(turnManager.Get());
-        //     }
-        // }
+            while (!turnManager.IsEmpty())
+            {
+                //Mientras no sea Empty sigo iterando
+                Console.WriteLine(turnManager.Get());
+            }
+        }
         private static void EachNames(ITurnManager<string> turnManager)
         {
 
